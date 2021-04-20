@@ -10,10 +10,24 @@ router = APIRouter(prefix="/nasa")
 async def get_planetary_news(date: str, api_key: str = None):
     url = "https://api.nasa.gov/planetary/apod"
     if not api_key:
-        file = open("config.json")
-        string = file.read()
-        decoded_string = json.loads(string)
+        # opening the file, verifying that it exists
+        try:
+            with open("config.json") as f:
+                file_content = f.read()
+        except FileNotFoundError:
+            raise FileNotFoundError("config.json not found!")
+
+        # decoding the json, making sure the config.json content is an actual json
+        try:
+            decoded_string = json.loads(file_content)
+        except ValueError:
+            raise ValueError("config.json has a wrong input")
+
         api_key = decoded_string["api_key"]
+
+        # making sure there is an api key so that we can access the api
+        if not api_key:
+            raise Exception("There is no api key in config.json")
 
     request_dict = {"api_key": api_key, "date": date}
 
@@ -29,25 +43,35 @@ async def get_planetary_news(date: str, api_key: str = None):
 # GET api endpoint to retrieve the API key
 @router.get("/api-key")
 async def get_api_key():
-    file = open("config.json")
-    file_content = file.read()
+    try:
+        with open("config.json") as f:
+            file_content = f.read()
+    except FileNotFoundError:
+        raise FileNotFoundError("config.json not found!")
+
     decoded_content = json.loads(file_content)
     api_key = decoded_content["api_key"]
+
+    if not api_key:
+        raise Exception("There is no api key in config.json")
+
     return api_key
 
 
 # PUT api endpoint to modify the API key, will raise an exception if there is no API key
-@router.put("/modify-api-key")
+@router.put("/api-key")
 async def modify_api_key(new_key: str):
-    file = open("config.json")
-    file_content = file.read()
+    try:
+        with open("config.json") as f:
+            file_content = f.read()
+    except FileNotFoundError:
+        raise FileNotFoundError("config.json not found!")
+
     decoded_content = json.loads(file_content)
     api_key = decoded_content["api_key"]
 
     if not api_key:
         raise Exception("No api key found in config.json")
-
-    file.close()
 
     file = open("config.json", "w")
     data = {"api_key": new_key}
@@ -57,27 +81,32 @@ async def modify_api_key(new_key: str):
 
 
 # DELETE api endpoint to remove the API key, the value becomes null in the json
-@router.delete("/delete-api-key")
+@router.delete("/api-key")
 async def delete_api_key():
-    file = open("config.json", "w")
-    data = {"api_key": None}
-    json.dump(data, file)
+    try:
+        with open("config.json") as file:
+            data = {"api_key": None}
+            json.dump(data, file)
+    except FileNotFoundError:
+        raise FileNotFoundError("config.json not found!")
 
     return "API key deleted successfully!"
 
 
 # POST api endpoint to add an API key, if there is already one it will raise an exception
-@router.post("/add-api-key")
+@router.post("/api-key")
 async def add_api_key(new_key: str):
-    file = open("config.json")
-    file_content = file.read()
+    try:
+        with open("config.json") as f:
+            file_content = f.read()
+    except FileNotFoundError:
+        raise FileNotFoundError("config.json not found!")
+
     decoded_content = json.loads(file_content)
     api_key = decoded_content["api_key"]
 
     if api_key:
         raise Exception("There already exists an API key")
-
-    file.close()
 
     file = open("config.json", "w")
     data = {"api_key": new_key}
