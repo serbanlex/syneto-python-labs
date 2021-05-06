@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from fastapi.responses import JSONResponse
 import requests
 import json
 
@@ -20,8 +21,8 @@ async def get_planetary_news(date: str, api_key: str = None):
         # decoding the json, making sure the config.json content is an actual json
         try:
             decoded_string = json.loads(file_content)
-        except ValueError:
-            raise ValueError("config.json has a wrong input")
+        except ValueError as exc:
+            return JSONResponse(status_code=404, content=str(exc))
 
         api_key = decoded_string["api_key"]
 
@@ -113,3 +114,4 @@ async def add_api_key(new_key: str):
     json.dump(data, file)
 
     return "API key added successfully!"
+
