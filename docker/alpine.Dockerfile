@@ -8,7 +8,7 @@ RUN mkdir -p /home/syneto_labs
 
 WORKDIR /home/syneto_labs
 
-COPY ./pyproject.toml ./pyproject.toml
+COPY ../pyproject.toml ./pyproject.toml
 
 RUN /root/.poetry/bin/poetry install
 

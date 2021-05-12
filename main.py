@@ -1,5 +1,5 @@
 # docker build . -t aclabs
-# docker run -td --name syneto-lab -v "D:\Diverse\3. Syneto\time-machine2":/home/syneto_labs/ -p 8000:8000 aclabs
+# docker run -td --name syneto-lab -v "D:\Diverse\3. Syneto\git\syneto-python-labs":/home/syneto_labs/ -p 8000:8000 aclabs
 # docker run -td --name syneto-lab -v "C:\Users\alexandru-b.serban\PycharmProjects\syneto-python-labs":/home/syneto_labs -p 8000:8000 aclabs
 # docker exec -it syneto-lab /bin/sh
 # /root/.poetry/bin/poetry shell
