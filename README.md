@@ -1,2 +1,2 @@
 # syneto-python-labs
-This is my work done through my experience at Syneto's Python lab.
+This is my work done through my experience at the "Time Machine" Syneto Python lab.
