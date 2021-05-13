@@ -12,6 +12,7 @@ fastapi = "^0.63.0"
 click = "^7.1.2"
 yfinance = "^0.1.59"
 matplotlib = "^3.4.1"
+aiofiles = "^0.6.0"
 
 [tool.poetry.dev-dependencies]
 
