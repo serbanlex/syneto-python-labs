@@ -23,3 +23,9 @@ class TestDelete (unittest.TestCase):
             os.remove(self.txt)
         except FileNotFoundError as e:
             pass
+
+    @unittest.skip("This is incomplete")
+    def test_skip(self):
+        x = 5
+        self.assertEqual(10, x)
+
