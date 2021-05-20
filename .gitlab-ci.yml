@@ -1,0 +1,9 @@
+stages:
+  - unit-tests
+
+unit-tests:
+  image: python:3.9.5-buster
+  stage: unit-tests
+  script:
+    - cd finance
+    - python3 -m unittest tests.py
