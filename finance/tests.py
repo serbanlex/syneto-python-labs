@@ -29,3 +29,19 @@ class TestDelete (unittest.TestCase):
         x = 5
         self.assertEqual(10, x)
 
+    def test_delete(self):
+        self.repo.add("TSLA")
+        self.repo.delete("TSLA")
+
+        with open(self.txt) as file:
+            self.assertEqual("", file.read())
+
+    def test_get(self):
+        self.repo.add("TSLA")
+        self.repo.add("AAPL")
+        self.repo.add("PATH")
+
+        tickers = self.repo.get_all()
+        expected_tickers = ["TSLA", "AAPL", "PATH"]
+
+        self.assertEqual(expected_tickers, tickers)
